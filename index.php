@@ -64,15 +64,15 @@ if (isset($_REQUEST["pack"])) {
     }
 </style>
 
-<body>
-    <div class="header">
-                                                                                               <img src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
+<body class="satourn">
+    <div class="header satourn">
+                                                                                               <img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
         <?php
         echo "FrenchShitFest n°$editionNumber $editionTexte";
                     ?>
-        <img src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="60px" height="40px">
+        <img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="60px" height="40px">
     </div>
-    <div class="upload"><img src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
+    <div class="upload satourn"><img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
         <?php
         session_start();
 
@@ -213,8 +213,8 @@ if (isset($_REQUEST["pack"])) {
             <?php
         }
         ?>
-        <img src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px"></div>
-    <div class="download"><img src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
+        <img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px"></div>
+    <div class="download satourn"><img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
                     <?php
                     if ($packopen) {
                         ?><br><br>
@@ -232,13 +232,13 @@ if (isset($_REQUEST["pack"])) {
             <?php
         }
         ?>
-        <img src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
+        <img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
     </div>
 
         <?php
                             if (isset($_SESSION['usr_logged']) && $_SESSION['usr_logged'] && ($_SESSION["usr_name"] == "Cunu" ||$_SESSION["usr_name"] == "Adri")) {
                                 ?>
-                            <div class="cunupanel">
+                            <div class="cunupanel satourn">
                                 bg
 
             <br>
@@ -263,6 +263,40 @@ if (isset($_REQUEST["pack"])) {
             <?php
         }
         ?>
-                     <img src="https://cdn.drawception.com/images/panels/2018/2-13/AypBaBreLw-2.png"/>
+                     <img class="satourn" class="satourn" src="https://cdn.drawception.com/images/panels/2018/2-13/AypBaBreLw-2.png"/>
 </body>
 
+<script>
+    import('https://code.jquery.com/jquery-3.4.1.js').then((c_inporté) => {
+        (console.log(c_inporté))
+
+        var c_pa_es6 = $('.satourn')
+
+        for (i=0;i<$('.satourn').length/2;i++)     /**8=====D**/                                          {
+
+            let un_string_serré_sur_patouz = 'rotate(' //es6 la so6
+
+            if (i%2) {
+                un_string_serré_sur_patouz += '-';
+            }
+
+            un_string_serré_sur_patouz += (Math.random() * 0.1).toFixed(2);
+
+            un_string_serré_sur_patouz += 'turn)'
+
+            bravo_vou_ete_leureu_vinkeur_pour_tourné_la_rou = c_pa_es6.eq(Math.floor(Math.random()*10));;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+            bravo_vou_ete_leureu_vinkeur_pour_tourné_la_rou.css('transform', un_string_serré_sur_patouz)
+
+
+        }
+
+
+
+
+
+    })
+
+
+
+</script>

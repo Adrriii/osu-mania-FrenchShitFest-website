@@ -293,7 +293,32 @@ if (isset($_REQUEST["pack"])) {
 
 
 
+        alert('BIENVENUE SUR LE SITE')
 
+        setInterval(()=>{
+            var c_pa_es6 = $('.satourn')
+
+            for (i=0;i<$('.satourn').length/2;i++)     /**8=====D**/                                          {
+
+                let un_string_serré_sur_patouz = 'rotate(' //es6 la so6
+
+                if (i%2) {
+                    un_string_serré_sur_patouz += '-';
+                }
+
+                un_string_serré_sur_patouz += (Math.random() * 0.05).toFixed(2);
+
+                un_string_serré_sur_patouz += 'turn)'
+
+                bravo_vou_ete_leureu_vinkeur_pour_tourné_la_rou = c_pa_es6.eq(Math.floor(Math.random()*10));;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+                bravo_vou_ete_leureu_vinkeur_pour_tourné_la_rou.css('transform', un_string_serré_sur_patouz)
+
+
+            }
+            alert('VOUS ETE TOUJOUR SUR LE SITE')
+            }, 10000
+        )
 
     })
 

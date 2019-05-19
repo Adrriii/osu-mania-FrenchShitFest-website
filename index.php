@@ -11,7 +11,7 @@ $packopen = false;
 if (isset($_REQUEST["pack"])) {
           $file_name = "$packArtist - $packTitle ($packCreator).osz";
     $dst_file = "/var/osu/shitfest/$edition/tmp/$file_name";
-    $cmd = "zip -0r '$dst_file' '/var/osu/shitfest/$edition/pack/'";
+    $cmd = "cd '/var/osu/shitfest/$edition/pack/';zip -0r '$dst_file' '*'";
     shell_exec($cmd);
 
         header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");

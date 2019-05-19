@@ -1,6 +1,6 @@
 <?php
-$editionNumber = "3";
-        $editionTexte = "Eurobeat Edition";
+$editionNumber = "4";
+        $editionTexte = "Not Music Edition";
     $packArtist = "Various Artists";
         $packTitle = "FrenchShitFest Paquetage $editionNumber ($editionTexte)";
     $packCreator = "Cunu";

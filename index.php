@@ -10,6 +10,17 @@ $packopen = false;
 
 if (isset($_REQUEST["pack"])) {
           $file_name = "$packArtist - $packTitle ($packCreator).osz";
+          
+          if(!is_dir("/var/osu/shitfest/$edition")) {
+              mkdir("/var/osu/shitfest/$edition");
+          }
+          if(!is_dir("/var/osu/shitfest/$edition/tmp")) {
+              mkdir("/var/osu/shitfest/$edition/tmp");
+          }
+          if(!is_dir("/var/osu/shitfest/$edition/pack")) {
+              mkdir("/var/osu/shitfest/$edition/pack");
+          }
+          
     $dst_file = "/var/osu/shitfest/$edition/tmp/$file_name";
     $cmd = "cd '/var/osu/shitfest/$edition/pack/';zip -0r '$dst_file' '*'";
     shell_exec($cmd);

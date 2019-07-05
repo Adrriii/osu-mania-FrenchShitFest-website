@@ -1,12 +1,90 @@
 <?php
-$editionNumber = "5";
-$editionTexte = "Anime Edition";
+
+// wa une database mdr
+class Database {
+
+    private $pdo;
+    private $result;
+
+    public function __construct($db = "shitfest"){
+        try {
+            $this->pdo = new PDO("mysql:host=localhost;dbname=$db;charset=utf8", "shitfest", trim(file_get_contents("/var/osu/shitfestpass"))); /// mdr c securiser
+        } catch(Exception $e){
+            die("Connexion à la base de données ECHOUAGE de b.");
+        }
+    }
+
+    public function query($sql, $opt = null, $mode = PDO::FETCH_BOTH){
+        try {
+            $query = $this->pdo->prepare($sql);
+            $query->execute($opt);
+            $this->result = $query->fetchAll($mode);
+            return true;
+        } catch(Exception $e){
+            return false;
+        }
+    }
+
+    public function getResult($i = null){
+        if($i == null){
+            return $this->result;
+        }
+        if(isset($this->result[$i])){
+            return $this->result[$i];
+        }
+        return false;
+    }
+
+    public function fast($sql, $opt = null, $i = null, $mode = PDO::FETCH_BOTH){
+        $this->query($sql, $opt, $mode);
+        return $this->getResult($i);
+    }
+}
+$datadonnee = new Database();
+        session_start();
+
+    if (isset($_SESSION['usr_logged']) && $_SESSION['usr_logged'] && ($_SESSION["usr_name"] == "Cunu" || $_SESSION["usr_name"] == "Adri")) {
+        if(isset($_REQUEST["ACTION_INSENSER"])) {
+            switch($_REQUEST["ACTION_INSENSER"]) {
+                case "0":
+                    // metre a jour les misajour
+                    $doner = [
+                        ":n" => $_REQUEST["number"],
+                        ":t" => $_REQUEST["titre"],
+                        ":m" => $_REQUEST["creator"],
+                        ":p" => $_REQUEST["artist"],
+                    ];
+                    $datadonnee->fast("UPDATE current_edition SET number = :n, titre = :t, creator = :m, artist = :p", $doner);
+                    break;
+                case "1":
+                    $doner = [
+                        ":o" => $_REQUEST["open"],
+                        ];
+                    // metre a jour uplode
+                    $datadonnee->fast("UPDATE current_edition SET open = :o", $doner);
+                    break;
+                case "2":
+                    // metre a jour donlode
+                    $doner = [
+                        ":o" => $_REQUEST["download"],
+                        ];
+                    // metre a jour uplode
+                    $datadonnee->fast("UPDATE current_edition SET download = :o", $doner);
+                    break;
+            }
+        }
+    }
+$INFORMATION = $datadonnee->fast("SELECT * FROM current_edition")[0]; // enorme issime
+$editionNumber = $INFORMATION["number"];
+$editionTitre = $INFORMATION["titre"];
+$editionTexte = "$editionTitre Edition";
 $packArtist = "Various Artists";
 $packTitle = "FrenchShitFest Paquetage $editionNumber ($editionTexte)";
-$packCreator = "Cunu";
+$packCreator = $INFORMATION["creator"];
 $edition = "s$editionNumber";
 
-$packopen = false;
+$packopen = $INFORMATION["open"] == 1;
+$packdownload = $INFORMATION["download"] == 1;
 
 if (isset($_REQUEST["pack"])) {
     $file_name = "$packArtist - $packTitle ($packCreator).osz";
@@ -73,6 +151,12 @@ if (isset($_REQUEST["pack"])) {
         width: 40%;
         height: 150px;
     }
+    .cunupanelDEUX {
+        border: 1px solid black;
+        margin: 10px auto auto auto;
+        width: 40%;
+        height: 150px;
+    }
 </style>
 
 <body class="satourn">
@@ -85,8 +169,8 @@ if (isset($_REQUEST["pack"])) {
     </div>
     <div class="upload satourn"><img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
         <?php
-        session_start();
 
+        if($packopen) {
         if (isset($_FILES['file'])) {
             if ($_FILES['file']['error']) {
                 echo "error " . $_FILES['file']['error'];
@@ -215,10 +299,17 @@ if (isset($_REQUEST["pack"])) {
             <input type="file" name="file" id="file"><br><br>
             <input type="submit" value="CONFIRMER" name="submit">
         </form>
+        <?php
+        }else {
+            ?>
+        on peut pas uploader voilà c comme ça
+        <?php
+        }
+        ?>
         <img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px"></div>
     <div class="download satourn"><img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
         <?php
-        if ($packopen) {
+        if ($packdownload) {
             ?><br><br>
             <form enctype="multipart/form-data" action="" method="POST">
                 <input type="hidden" name="pack" id="pack"><br>
@@ -262,6 +353,26 @@ if (isset($_REQUEST["pack"])) {
             }
             ?>
         </div>
+        <div class="cunupanelDEUX satourn">
+            actions insenser
+            <form>
+                numero edition <input type="text" name="number" id="number" value="<?php echo $editionNumber ?>"><br>
+                titre edition <input type="text" name="titre" id="titre" value="<?php echo $editionTitre ?>"><br>
+                creatore <input type="text" name="creator" id="creator" value="<?php echo $packCreator ?>"><br>
+                arist <input type="text" name="artist" id="artist" value="<?php echo $packArtist ?>"><br>
+                <input type="hidden" name="ACTION_INSENSER" value="0">
+                <input type="submit" name="s" value="metre a joure">
+            </form>
+        <form>
+                <input type="hidden" name="ACTION_INSENSER" value="1">
+                <?php echo $packopen ? "interdir" : "autoriser" ?> upload ?<input type="submit" name="open" id="open" value="<?php echo $packopen ? 0 : 1 ?>"><br>
+                </form>
+            <form>
+                <input type="hidden" name="ACTION_INSENSER" value="2">
+                <?php echo $packdownload ? "interdir" : "autoriser" ?> download ?<input type="submit" name="download" id="download" value="<?php echo $packdownload ? 0 : 1 ?>"><br>
+            </form>
+                
+        </div>
         <?php
     } else {
         ?>
@@ -282,7 +393,11 @@ if (isset($_REQUEST["pack"])) {
                     array_shift($n);
                     $n = implode("[", $n);
                     $qqun = true;
+                    if(explode("-", explode("]", $n)[0])[0] != "") {
                     echo explode("-", explode("]", $n)[0])[0] . "<br>";
+                    } else {
+                        echo explode("-", explode("]", $n)[0])[0] .explode("-", explode("]", $n)[0])[1] . "<br>";
+                    }
                 }
             }
             

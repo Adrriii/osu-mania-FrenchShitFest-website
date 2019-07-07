@@ -86,7 +86,7 @@ $edition = "s$editionNumber";
 $packopen = $INFORMATION["open"] == 1;
 $packdownload = $INFORMATION["download"] == 1;
 
-if (isset($_REQUEST["pack"])) {
+if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSENSER"]) && isset($_SESSION['usr_logged']) && $_SESSION['usr_logged'] && ($_SESSION["usr_name"] == "Cunu" || $_SESSION["usr_name"] == "Adri") && $_REQUEST["ACTION_INSENSER"] == 3))  {
     $file_name = "$packArtist - $packTitle ($packCreator).osz";
 
     if (!is_dir("/var/osu/shitfest/$edition")) {
@@ -100,7 +100,7 @@ if (isset($_REQUEST["pack"])) {
     }
 
     $dst_file = "/var/osu/shitfest/$edition/tmp/$file_name";
-    $cmd = "cd '/var/osu/shitfest/$edition/pack/';zip -0r '$dst_file' '*'";
+    $cmd = "cd '/var/osu/shitfest/$edition/pack/';zip -0r '$dst_file' '.'";
     shell_exec($cmd);
 
     header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
@@ -137,25 +137,25 @@ if (isset($_REQUEST["pack"])) {
         border: 1px solid black;
         margin: auto auto auto auto;
         width: 40%;
-        height: 150px;
+        min-height: 150px;
     }
     .download {
         border: 1px solid black;
         margin: 10px auto auto auto;
         width: 40%;
-        height: 150px;
+        min-height: 150px;
     }
     .cunupanel {
         border: 1px solid black;
         margin: 10px auto auto auto;
         width: 40%;
-        height: 150px;
+        min-height: 150px;
     }
     .cunupanelDEUX {
         border: 1px solid black;
         margin: 10px auto auto auto;
         width: 40%;
-        height: 150px;
+        min-height: 150px;
     }
 </style>
 
@@ -370,6 +370,10 @@ if (isset($_REQUEST["pack"])) {
             <form>
                 <input type="hidden" name="ACTION_INSENSER" value="2">
                 <?php echo $packdownload ? "interdir" : "autoriser" ?> download ?<input type="submit" name="download" id="download" value="<?php echo $packdownload ? 0 : 1 ?>"><br>
+            </form>
+            <form>
+                <input type="hidden" name="ACTION_INSENSER" value="3">
+                force download <input type="submit" name="fdownload" id="download" value="DL"><br>
             </form>
                 
         </div>

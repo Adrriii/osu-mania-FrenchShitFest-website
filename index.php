@@ -384,7 +384,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
             <br>
             ont deja uploder leur mape :<br>
             <?php
-            $qqun = false;
+            $y_a_t_il_quelqu_un_qui_se_cache_dans_le_noir = false;
             $dir = '/var/osu/shitfest/s' . $editionNumber . '/pack/';
             $files = glob("$dir*");
 
@@ -396,7 +396,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                     $n = explode("[", $t);
                     array_shift($n);
                     $n = implode("[", $n);
-                    $qqun = true;
+                    $y_a_t_il_quelqu_un_qui_se_cache_dans_le_noir = true;
                     if(explode("-", explode("]", $n)[0])[0] != "") {
                     echo explode("-", explode("]", $n)[0])[0] . "<br>";
                     } else {
@@ -405,7 +405,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                 }
             }
 
-            if(!$qqun) {
+            if(!$y_a_t_il_quelqu_un_qui_se_cache_dans_le_noir) {
                 echo "persone depecher vous enculer";
             }
             ?>

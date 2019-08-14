@@ -375,7 +375,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                 <input type="hidden" name="ACTION_INSENSER" value="3">
                 force download <input type="submit" name="fdownload" id="download" value="DL"><br>
             </form>
-                
+
         </div>
         <?php
     } else {
@@ -404,7 +404,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                     }
                 }
             }
-            
+
             if(!$qqun) {
                 echo "persone depecher vous enculer";
             }
@@ -413,7 +413,8 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
         <?php
     }
     ?>
-    <img class="satourn" class="satourn" src="https://cdn.drawception.com/images/panels/2018/2-13/AypBaBreLw-2.png"/>
+    <a href="https://osu.ppy.sh/s/977678"><img class="satourn" class="satourn" src="https://cdn.drawception.com/images/panels/2018/2-13/AypBaBreLw-2.png"/></a>
+    <a href="https://osu.ppy.sh/s/1010740"><img class="satourn" class="satourn" src="https://b.ppy.sh/thumb/1010740l.jpg?update=2019-07-28%2018:11:32"/></a>
 </body>
 
 <script>

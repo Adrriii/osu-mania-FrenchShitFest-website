@@ -375,7 +375,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                 <input type="hidden" name="ACTION_INSENSER" value="3">
                 force download <input type="submit" name="fdownload" id="download" value="DL"><br>
             </form>
-                
+
         </div>
         <?php
     } else {
@@ -384,7 +384,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
             <br>
             ont deja uploder leur mape :<br>
             <?php
-            $qqun = false;
+            $y_a_t_il_quelqu_un_qui_se_cache_dans_le_noir = false;
             $dir = '/var/osu/shitfest/s' . $editionNumber . '/pack/';
             $files = glob("$dir*");
 
@@ -396,7 +396,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                     $n = explode("[", $t);
                     array_shift($n);
                     $n = implode("[", $n);
-                    $qqun = true;
+                    $y_a_t_il_quelqu_un_qui_se_cache_dans_le_noir = true;
                     if(explode("-", explode("]", $n)[0])[0] != "") {
                     echo explode("-", explode("]", $n)[0])[0] . "<br>";
                     } else {
@@ -404,8 +404,8 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                     }
                 }
             }
-            
-            if(!$qqun) {
+
+            if(!$y_a_t_il_quelqu_un_qui_se_cache_dans_le_noir) {
                 echo "persone depecher vous enculer";
             }
             ?>
@@ -413,7 +413,15 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
         <?php
     }
     ?>
-    <img class="satourn" class="satourn" src="https://cdn.drawception.com/images/panels/2018/2-13/AypBaBreLw-2.png"/>
+    <div style="display:flex" display="💪">
+        <a href="https://osu.ppy.sh/s/960544"><img class="satourn" class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059"/></a>
+        <a href="CUNU OMGFDOMG PACK 2 WHEN"><img class="satourn" class="satourn" src="PUTAIN"/></a>
+        <a href="https://osu.ppy.sh/s/977678"><img class="satourn" class="satourn" src="https://cdn.drawception.com/images/panels/2018/2-13/AypBaBreLw-2.png"/></a>
+        <a href="https://osu.ppy.sh/s/991882"><img class="satourn" class="satourn" src="no_image_edition" title="tamer" alt="no image edition"/></a>
+        <a href="https://osu.ppy.sh/s/999478"><img class="satourn" class="satourn" src="https://i.ytimg.com/vi/5QvgLlFyeok/hqdefault.jpg"/></a>
+        <a href="https://osu.ppy.sh/s/1010740"><img class="satourn" class="satourn" src="https://b.ppy.sh/thumb/1010740l.jpg?update=2019-07-28%2018:11:32"/></a>
+        <a href="https://osu.ppy.sh/s/1014492"><img class="satourn" class="satourn" src="https://www.sciencesetavenir.fr/assets/img/2016/06/23/cover-r4x3w1000-5c4095e068d41-pieds.jpg2"/></a>
+    </div>
 </body>
 
 <script>

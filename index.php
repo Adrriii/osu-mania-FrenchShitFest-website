@@ -442,7 +442,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
 
             un_string_serré_sur_patouz += 'turn)'
 
-            bravo_vou_ete_leureu_vinkeur_pour_tourné_la_rou = c_pa_es6.eq(Math.floor(Math.random() * 10));
+            bravo_vou_ete_leureu_vinkeur_pour_tourné_la_rou = c_pa_es6.eq(Math.floor(Math.random() * $('.satourn').length));
             ;
             ;
             ;

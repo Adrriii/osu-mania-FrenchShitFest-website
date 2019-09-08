@@ -174,6 +174,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
         if (isset($_FILES['file'])) {
             if ($_FILES['file']['error']) {
                 echo "error " . $_FILES['file']['error'];
+                if($_FILES['file']['error'] == 1) { echo "le maximume c ".ini_get('upload_max_filesize'); }
             } else {
                 $uploaddir = '/var/osu/shitfest/' . $edition . '/tmp/';
                 $uploadfile = $uploaddir . basename($_FILES['file']['name']);
@@ -285,7 +286,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                         }
                         shell_exec("mv \"" . $uploaddir . $audio . "\" \"$uploaddir../pack/$creator.mp3\"");
                     } else {
-                        echo "ENVOIE QU UNE SEULE DIFFICULTE PUTAIN " . $_SESSION["usr_name"] . " T ES VRAIMENT UN GROS CON TOISs";
+                        echo "ENVOIE QU UNE SEULE DIFFICULTE PUTAIN " . $_SESSION["usr_name"] . " T ES VRAIMENT UN GROS CON TOISs tu a envoaient ".count($files)." mape alors que fallait 1 §";
                     }
                     shell_exec("rm " . $uploaddir . "*");
                 } else {

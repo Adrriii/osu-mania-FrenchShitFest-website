@@ -230,7 +230,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                             fclose($fn);
                         }
 
-                        $filename = "$packArtist - $packTitle ($packCreator) [$creator - $artist - $title [$version]].osu";
+                        $filename = "$creator.osu";
                         $writefile = [];
                         $events = false;
 
@@ -344,12 +344,8 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
             foreach ($files as $diff) {
                 $p1 = explode(".", $diff);
                 if (trim($p1[count($p1) - 1]) == 'osu') {
-                    $p = explode("/", $diff);
-                    $t = $p[count($p) - 1];
-                    $n = explode("[", $t);
-                    array_shift($n);
-                    $n = implode("[", $n);
-                    echo explode("]", $n)[0] . "]<br>";
+                    $ps = explode("/",$p1[0]);
+                    echo $ps[count($ps)-1] . "<br>";
                 }
             }
             ?>
@@ -385,24 +381,17 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
             <br>
             ont deja uploder leur mape :<br>
             <?php
-            $y_a_t_il_quelqu_un_qui_se_cache_dans_le_noir = false;
+            $y_a_t_il_quelqu_un_qui_se_cache_dans_le_noir = false;           
+            
             $dir = '/var/osu/shitfest/s' . $editionNumber . '/pack/';
             $files = glob("$dir*");
 
             foreach ($files as $diff) {
                 $p1 = explode(".", $diff);
                 if (trim($p1[count($p1) - 1]) == 'osu') {
-                    $p = explode("/", $diff);
-                    $t = $p[count($p) - 1];
-                    $n = explode("[", $t);
-                    array_shift($n);
-                    $n = implode("[", $n);
+                    $ps = explode("/",$p1[0]);
                     $y_a_t_il_quelqu_un_qui_se_cache_dans_le_noir = true;
-                    if(explode("-", explode("]", $n)[0])[0] != "") {
-                    echo explode("-", explode("]", $n)[0])[0] . "<br>";
-                    } else {
-                        echo explode("-", explode("]", $n)[0])[0] .explode("-", explode("]", $n)[0])[1] . "<br>";
-                    }
+                    echo $ps[count($ps)-1] . "<br>";
                 }
             }
 

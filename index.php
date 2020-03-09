@@ -50,11 +50,12 @@ $datadonnee = new Database();
                     // metre a jour les misajour
                     $doner = [
                         ":n" => $_REQUEST["number"],
+                        ":s" => $_REQUEST["saison"],
                         ":t" => $_REQUEST["titre"],
                         ":m" => $_REQUEST["creator"],
                         ":p" => $_REQUEST["artist"],
                     ];
-                    $datadonnee->fast("UPDATE current_edition SET number = :n, titre = :t, creator = :m, artist = :p", $doner);
+                    $datadonnee->fast("UPDATE current_edition SET number = :n, saison = :s, titre = :t, creator = :m, artist = :p", $doner);
                     break;
                 case "1":
                     $doner = [
@@ -76,12 +77,15 @@ $datadonnee = new Database();
     }
 $INFORMATION = $datadonnee->fast("SELECT * FROM current_edition")[0]; // enorme issime
 $editionNumber = $INFORMATION["number"];
+$saisonNumber = $INFORMATION["saison"];
 $editionTitre = $INFORMATION["titre"];
 $editionTexte = "$editionTitre Edition";
 $packArtist = "Various Artists";
-$packTitle = "FrenchShitFest Paquetage $editionNumber ($editionTexte)";
+$packTitle = "FrenchShitFest$saisonNumber Paquetage $editionNumber ($editionTexte)";
 $packCreator = $INFORMATION["creator"];
-$edition = "s$editionNumber";
+$season = "s$saisonNumber";
+$edition = "e$editionNumber";
+$full = "$season/$edition";
 
 $packopen = $INFORMATION["open"] == 1;
 $packdownload = $INFORMATION["download"] == 1;
@@ -89,18 +93,22 @@ $packdownload = $INFORMATION["download"] == 1;
 if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSENSER"]) && isset($_SESSION['usr_logged']) && $_SESSION['usr_logged'] && ($_SESSION["usr_name"] == "Cunu" || $_SESSION["usr_name"] == "Adri") && $_REQUEST["ACTION_INSENSER"] == 3))  {
     $file_name = "$packArtist - $packTitle ($packCreator).osz";
 
-    if (!is_dir("/var/osu/shitfest/$edition")) {
-        mkdir("/var/osu/shitfest/$edition");
-    }
-    if (!is_dir("/var/osu/shitfest/$edition/tmp")) {
-        mkdir("/var/osu/shitfest/$edition/tmp");
-    }
-    if (!is_dir("/var/osu/shitfest/$edition/pack")) {
-        mkdir("/var/osu/shitfest/$edition/pack");
+    if (!is_dir("/var/osu/shitfest/$season")) {
+        mkdir("/var/osu/shitfest/$season");
     }
 
-    $dst_file = "/var/osu/shitfest/$edition/tmp/$file_name";
-    $cmd = "cd '/var/osu/shitfest/$edition/pack/';zip -0r '$dst_file' '.'";
+    if (!is_dir("/var/osu/shitfest/$full")) {
+        mkdir("/var/osu/shitfest/$full");
+    }
+    if (!is_dir("/var/osu/shitfest/$full/tmp")) {
+        mkdir("/var/osu/shitfest/$full/tmp");
+    }
+    if (!is_dir("/var/osu/shitfest/$full/pack")) {
+        mkdir("/var/osu/shitfest/$full/pack");
+    }
+
+    $dst_file = "/var/osu/shitfest/$full/tmp/$file_name";
+    $cmd = "cd '/var/osu/shitfest/$full/pack/';zip -0r '$dst_file' '.'";
     shell_exec($cmd);
 
     header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
@@ -163,7 +171,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
     <div class="header satourn">
         <img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
         <?php
-        echo "FrenchShitFest n°$editionNumber $editionTexte";
+        echo "FrenchShitFest$saisonNumber $editionTexte";
         ?>
         <img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="60px" height="40px">
     </div>
@@ -176,7 +184,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                 echo "error " . $_FILES['file']['error'];
                 if($_FILES['file']['error'] == 1) { echo "le maximume c ".ini_get('upload_max_filesize'); }
             } else {
-                $uploaddir = '/var/osu/shitfest/' . $edition . '/tmp/';
+                $uploaddir = '/var/osu/shitfest/' . $full . '/tmp/';
                 $uploadfile = $uploaddir . basename($_FILES['file']['name']);
                 shell_exec("rm \"" . $uploaddir . "*\"");
 
@@ -260,7 +268,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                                     $line = "ArtistUnicode: $packArtist\n";
                                     break;
                                 case "Version":
-                                    $line = "Version: $creator - $artist - $title [$version]\n";
+                                    $line = "Version: $creator - $title\n";
                                     break;
                                 default:
                                     if (substr($line, 0, 8) == "[Events]") {
@@ -338,7 +346,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
             <br>
             difficulter eksistantes :<br>
             <?php
-            $dir = '/var/osu/shitfest/s' . $editionNumber . '/pack/';
+            $dir = '/var/osu/shitfest/' . $full . '/pack/';
             $files = glob("$dir*");
 
             foreach ($files as $diff) {
@@ -354,6 +362,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
             actions insenser
             <form>
                 numero edition <input type="text" name="number" id="number" value="<?php echo $editionNumber ?>"><br>
+                saison edition <input type="text" name="saison" id="saison" value="<?php echo $saisonNumber ?>"><br>
                 titre edition <input type="text" name="titre" id="titre" value="<?php echo $editionTitre ?>"><br>
                 creatore <input type="text" name="creator" id="creator" value="<?php echo $packCreator ?>"><br>
                 arist <input type="text" name="artist" id="artist" value="<?php echo $packArtist ?>"><br>
@@ -383,7 +392,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
             <?php
             $y_a_t_il_quelqu_un_qui_se_cache_dans_le_noir = false;           
             
-            $dir = '/var/osu/shitfest/s' . $editionNumber . '/pack/';
+            $dir = '/var/osu/shitfest/' . $full . '/pack/';
             $files = glob("$dir*");
 
             foreach ($files as $diff) {

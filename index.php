@@ -1,5 +1,5 @@
 <?php
-
+set_time_limit(100);
 // wa une database mdr
 class Database {
 
@@ -79,9 +79,9 @@ $INFORMATION = $datadonnee->fast("SELECT * FROM current_edition")[0]; // enorme 
 $editionNumber = $INFORMATION["number"];
 $saisonNumber = $INFORMATION["saison"];
 $editionTitre = $INFORMATION["titre"];
-$editionTexte = "$editionTitre Edition";
+$editionTexte = "$editionTitre" . ($editionTitre ? " Edition" : "");
 $packArtist = "Various Artists";
-$packTitle = "FrenchShitFest$saisonNumber Paquetage $editionNumber ($editionTexte)";
+$packTitle = "FrenchShitFest$saisonNumber Paquetage $editionNumber" . ($editionTitre ? "($editionTexte)" : "");
 $packCreator = $INFORMATION["creator"];
 $season = "s$saisonNumber";
 $edition = "e$editionNumber";
@@ -184,119 +184,143 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                 echo "error " . $_FILES['file']['error'];
                 if($_FILES['file']['error'] == 1) { echo "le maximume c ".ini_get('upload_max_filesize'); }
             } else {
-                $uploaddir = '/var/osu/shitfest/' . $full . '/tmp/';
+                $packdir = "/var/osu/shitfest/$full/pack/";
+                $uploaddir = "/var/osu/shitfest/$full/upload/";
+                $workdir = "/var/osu/shitfest/$full/tmp/";
+                if (!is_dir($uploaddir)) {
+                    mkdir($uploaddir);
+                }
+                if (!is_dir($workdir)) {
+                    mkdir($workdir);
+                }
                 $uploadfile = $uploaddir . basename($_FILES['file']['name']);
-                shell_exec("rm \"" . $uploaddir . "*\"");
+                
+                if(file_exists($uploadfile)) {
+                    shell_exec("rm $uploadfile");
+                }
 
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
 
-                    shell_exec("unzip \"" . $uploadfile . "\" -d $uploaddir");
+                    shell_exec("unzip \"" . $uploadfile . "\" -d $workdir");
+                    $nbimg = count(glob("$workdir*.png")) + count(glob("$workdir*.jpg")) + count(glob("$workdir*.jpeg"));
+                    if ($nbimg <= 1) {
+                        if(count(glob("$workdir*.osb")) == 0) {
+                            $files = glob("$workdir*.osu");
+                            $newfile = [];
 
-                    $files = glob("$uploaddir*.osu");
-                    $newfile = [];
+                            if (count($files) == 1) {
+                                echo "Thank you for UPLOAD file<br>";
+                                foreach ($files as $map) {
+                                    foreach (file($map) as $line) {
 
-                    if (count($files) == 1) {
-                        echo "Thank you for UPLOAD file<br>";
-                        foreach ($files as $map) {
-                            foreach (file($map) as $line) {
+                                        $parts = explode(":", $line);
+                                        $left = trim(array_shift($parts));
+                                        $right = trim(join(":", $parts));
 
-                                $parts = explode(":", $line);
-                                $left = trim(array_shift($parts));
-                                $right = trim(join(":", $parts));
-
-                                switch ($left) {
-                                    case "AudioFilename":
-                                        $audio = $right;
-                                        break;
-                                    case "TitleUnicode":
-                                        $title = $right;
-                                        break;
-                                    case "Creator":
-                                        $creator = $right;
-                                        break;
-                                    case "ArtistUnicode":
-                                        $artist = $right;
-                                        break;
-                                    case "Version":
-                                        $version = $right;
-                                        break;
-                                    default:
-                                        if (substr($line, 0, 8) == "[Events]") {
-                                            $events = true;
+                                        switch ($left) {
+                                            case "AudioFilename":
+                                                $audio = $right;
+                                                break;
+                                            case "TitleUnicode":
+                                                $title = $right;
+                                                break;
+                                            case "Creator":
+                                                $creator = $right;
+                                                break;
+                                            case "ArtistUnicode":
+                                                $artist = $right;
+                                                break;
+                                            case "Version":
+                                                $version = $right;
+                                                break;
+                                            default:
+                                                if (substr($line, 0, 8) == "[Events]") {
+                                                    $events = true;
+                                                }
+                                                if ($events) {
+                                                    $p2 = explode("\"", $line);
+                                                    if (count($p2) > 2) {
+                                                        $background = $p2[1];
+                                                        $events = false;
+                                                    }
+                                                }
                                         }
-                                        if ($events) {
-                                            $p2 = explode("\"", $line);
-                                            if (count($p2) > 2) {
-                                                $background = $p2[1];
-                                                $events = false;
-                                            }
-                                        }
+                                        $newfile[] = $line;
+                                    }
+
+                                    fclose($fn);
+                                    
+                                    shell_exec(" rm \"$map\"");
                                 }
-                                $newfile[] = $line;
-                            }
 
-                            fclose($fn);
-                        }
+                                $filename = "$creator.osu";
+                                $writefile = [];
+                                $events = false;
 
-                        $filename = "$creator.osu";
-                        $writefile = [];
-                        $events = false;
+                                foreach ($newfile as $line) {
 
-                        foreach ($newfile as $line) {
+                                    $parts = explode(":", $line);
+                                    $left = trim(array_shift($parts));
+                                    $right = trim(join(":", $parts));
 
-                            $parts = explode(":", $line);
-                            $left = trim(array_shift($parts));
-                            $right = trim(join(":", $parts));
-
-                            switch ($left) {
-                                case "AudioFilename":
-                                    $line = "AudioFilename: $creator.mp3\n";
-                                    break;
-                                case "Title":
-                                    $line = "Title: $packTitle\n";
-                                    break;
-                                case "TitleUnicode":
-                                    $line = "TitleUnicode: $packTitle\n";
-                                    break;
-                                case "Creator":
-                                    $line = "Creator: $packCreator\n";
-                                    break;
-                                case "Artist":
-                                    $line = "Artist: $packArtist\n";
-                                    break;
-                                case "ArtistUnicode":
-                                    $line = "ArtistUnicode: $packArtist\n";
-                                    break;
-                                case "Version":
-                                    $line = "Version: $creator - $title\n";
-                                    break;
-                                default:
-                                    if (substr($line, 0, 8) == "[Events]") {
-                                        $events = true;
+                                    switch ($left) {
+                                        case "AudioFilename":
+                                            $line = "AudioFilename: $creator.mp3\n";
+                                            break;
+                                        case "Title":
+                                            $line = "Title: $packTitle\n";
+                                            break;
+                                        case "TitleUnicode":
+                                            $line = "TitleUnicode: $packTitle\n";
+                                            break;
+                                        case "Creator":
+                                            $line = "Creator: $packCreator\n";
+                                            break;
+                                        case "Artist":
+                                            $line = "Artist: $packArtist\n";
+                                            break;
+                                        case "ArtistUnicode":
+                                            $line = "ArtistUnicode: $packArtist\n";
+                                            break;
+                                        case "Version":
+                                            $line = "Version: $creator - $title\n";
+                                            break;
+                                        default:
+                                            if (substr($line, 0, 8) == "[Events]") {
+                                                $events = true;
+                                            }
+                                            if ($events) {
+                                                $p2 = explode("\"", $line);
+                                                if (count($p2) > 2) {
+                                                    $prts = explode(".", $background);
+                                                    $newbgname = $creator . "." . $prts[count($prts) - 1];
+                                                    $line = "0,0,\"$newbgname\",0,0\n";
+                                                    $events = false;
+                                                }
+                                            }
                                     }
-                                    if ($events) {
-                                        $p2 = explode("\"", $line);
-                                        if (count($p2) > 2) {
-                                            $prts = explode(".", $background);
-                                            $newbgname = $creator . "." . $prts[count($prts) - 1];
-                                            $line = "0,0,\"$newbgname\",0,0\n";
-                                        }
-                                    }
+                                    $writefile[] = $line;
+
+                                }
+                                file_put_contents($workdir . $filename, $writefile);
+                                
+                                shell_exec("mv \"" . $workdir . $filename . "\" \"$uploaddir../pack/$filename\"");
+                                if ($background) {
+                                    shell_exec("mv \"" . $workdir . $background . "\" \"$uploaddir../pack/$newbgname\"");
+                                }
+                                shell_exec("mv \"" . $workdir . $audio . "\" \"$uploaddir../pack/$creator.mp3\"");
+                                
+                                shell_exec("mv $workdir*  \"$workdir../pack/\"");
+                            } else {
+                                echo "ENVOIE QU UNE SEULE DIFFICULTE PUTAIN " . $_SESSION["usr_name"] . " T ES VRAIMENT UN GROS CON TOISs tu a envoaient ".count($files)." mape alors que fallait 1 §";
                             }
-                            $writefile[] = $line;
-
-                            file_put_contents($uploaddir . $filename, $writefile);
+                        } else {
+                            echo "Veuillez placer les éléments de storyboard dans le fichier .osu après [Event] et non dans un fichier .osb. Merci.";
                         }
-
-                        shell_exec("mv \"" . $uploaddir . $filename . "\" \"$uploaddir../pack/$filename\"");
-                        if ($background) {
-                            shell_exec("mv \"" . $uploaddir . $background . "\" \"$uploaddir../pack/$newbgname\"");
-                        }
-                        shell_exec("mv \"" . $uploaddir . $audio . "\" \"$uploaddir../pack/$creator.mp3\"");
                     } else {
-                        echo "ENVOIE QU UNE SEULE DIFFICULTE PUTAIN " . $_SESSION["usr_name"] . " T ES VRAIMENT UN GROS CON TOISs tu a envoaient ".count($files)." mape alors que fallait 1 §";
+                        echo "trop dimage $nbimg, stp met dans un sous dossier!!";
                     }
-                    shell_exec("rm " . $uploaddir . "*");
+                    shell_exec("rm -rf " . $workdir . "*");
                 } else {
                     echo "File size: " . $_FILES['file']['size'] . ". Max size : " . ini_get('upload_max_filesize') . "<br> (or cannot move to $uploadfile";
                 }

@@ -1,45 +1,8 @@
 <?php
 set_time_limit(100);
 // wa une database mdr
-class Database {
+include_once('database.php');
 
-    private $pdo;
-    private $result;
-
-    public function __construct($db = "shitfest"){
-        try {
-            $this->pdo = new PDO("mysql:host=localhost;dbname=$db;charset=utf8", "shitfest", trim(file_get_contents("/var/osu/shitfestpass"))); /// mdr c securiser
-        } catch(Exception $e){
-            die("Connexion à la base de données ECHOUAGE de b.");
-        }
-    }
-
-    public function query($sql, $opt = null, $mode = PDO::FETCH_BOTH){
-        try {
-            $query = $this->pdo->prepare($sql);
-            $query->execute($opt);
-            $this->result = $query->fetchAll($mode);
-            return true;
-        } catch(Exception $e){
-            return false;
-        }
-    }
-
-    public function getResult($i = null){
-        if($i == null){
-            return $this->result;
-        }
-        if(isset($this->result[$i])){
-            return $this->result[$i];
-        }
-        return false;
-    }
-
-    public function fast($sql, $opt = null, $i = null, $mode = PDO::FETCH_BOTH){
-        $this->query($sql, $opt, $mode);
-        return $this->getResult($i);
-    }
-}
 $datadonnee = new Database();
         session_start();
 
@@ -72,6 +35,15 @@ $datadonnee = new Database();
                     // metre a jour uplode
                     $datadonnee->fast("UPDATE current_edition SET download = :o", $doner);
                     break;
+				case "4":
+					// ajoute pack
+                    $doner = [
+                        ":s" => $_REQUEST["SAISON"],
+                        ":e" => $_REQUEST["EDITION"],
+                        ":t" => $_REQUEST["TITRE"],
+                        ];
+					$datadonnee->fast("INSERT INTO pack (`saison`,`edition`,`titre`) VALUES (:s, :e, :t)", $doner);
+					break;
             }
         }
     }
@@ -81,7 +53,7 @@ $saisonNumber = $INFORMATION["saison"];
 $editionTitre = $INFORMATION["titre"];
 $editionTexte = "$editionTitre" . ($editionTitre ? " Edition" : "");
 $packArtist = "Various Artists";
-$packTitle = "FrenchShitFest$saisonNumber Paquetage $editionNumber" . ($editionTitre ? "($editionTexte)" : "");
+$packTitle = "FrenchShitFest$saisonNumber Paquetage $editionNumber" . ($editionTitre ? " ($editionTexte)" : "");
 $packCreator = $INFORMATION["creator"];
 $season = "s$saisonNumber";
 $edition = "e$editionNumber";
@@ -93,19 +65,10 @@ $packdownload = $INFORMATION["download"] == 1;
 if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSENSER"]) && isset($_SESSION['usr_logged']) && $_SESSION['usr_logged'] && ($_SESSION["usr_name"] == "Cunu" || $_SESSION["usr_name"] == "Adri") && $_REQUEST["ACTION_INSENSER"] == 3))  {
     $file_name = "$packArtist - $packTitle ($packCreator).osz";
 
-    if (!is_dir("/var/osu/shitfest/$season")) {
-        mkdir("/var/osu/shitfest/$season");
-    }
-
-    if (!is_dir("/var/osu/shitfest/$full")) {
-        mkdir("/var/osu/shitfest/$full");
-    }
-    if (!is_dir("/var/osu/shitfest/$full/tmp")) {
-        mkdir("/var/osu/shitfest/$full/tmp");
-    }
-    if (!is_dir("/var/osu/shitfest/$full/pack")) {
-        mkdir("/var/osu/shitfest/$full/pack");
-    }
+    mkdir("/var/osu/shitfest/$season", 0777, true);
+    mkdir("/var/osu/shitfest/$full", 0777, true);
+    mkdir("/var/osu/shitfest/$full/tmp", 0777, true);
+    mkdir("/var/osu/shitfest/$full/pack", 0777, true);
 
     $dst_file = "/var/osu/shitfest/$full/tmp/$file_name";
     $cmd = "cd '/var/osu/shitfest/$full/pack/';zip -0r '$dst_file' '.'";
@@ -174,6 +137,8 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
         echo "FrenchShitFest$saisonNumber $editionTexte";
         ?>
         <img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="60px" height="40px">
+		</br>
+		<a href="https://osudaily.net/shitfest/packs.php">voir tous les packs</a>
     </div>
     <div class="upload satourn"><img class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059" width="70px" height="40px">
         <?php
@@ -187,12 +152,9 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                 $packdir = "/var/osu/shitfest/$full/pack/";
                 $uploaddir = "/var/osu/shitfest/$full/upload/";
                 $workdir = "/var/osu/shitfest/$full/tmp/";
-                if (!is_dir($uploaddir)) {
-                    mkdir($uploaddir);
-                }
-                if (!is_dir($workdir)) {
-                    mkdir($workdir);
-                }
+                mkdir($packdir, 0777, true);
+                mkdir($uploaddir, 0777, true);
+                mkdir($workdir, 0777, true);
                 $uploadfile = $uploaddir . basename($_FILES['file']['name']);
                 
                 if(file_exists($uploadfile)) {
@@ -322,7 +284,8 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                     }
                     shell_exec("rm -rf " . $workdir . "*");
                 } else {
-                    echo "File size: " . $_FILES['file']['size'] . ". Max size : " . ini_get('upload_max_filesize') . "<br> (or cannot move to $uploadfile";
+                    echo "File size: " . $_FILES['file']['size'] . ". Max size : " . ini_get('upload_max_filesize') . "<br> (or cannot move from ".$_FILES['file']['tmp_name']." to $uploadfile because ".$_FILES["file"]["error"] . " more info ";
+                    print_r($_FILES["file"]);
                 }
             }
         }
@@ -400,6 +363,13 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
             <form>
                 <input type="hidden" name="ACTION_INSENSER" value="2">
                 <?php echo $packdownload ? "interdir" : "autoriser" ?> download ?<input type="submit" name="download" id="download" value="<?php echo $packdownload ? 0 : 1 ?>"><br>
+            </form>
+            <form>
+                <input type="hidden" name="ACTION_INSENSER" value="4">
+                <input type="hidden" name="SAISON" value="<?php echo $saisonNumber ?>">
+                <input type="hidden" name="EDITION" value="<?php echo $editionNumber ?>">
+                <input type="hidden" name="TITRE" value="<?php echo $editionTitre ?>">
+                sauvegarder edition<input type="submit" name="save" id="save" value="oui"><br>
             </form>
             <form>
                 <input type="hidden" name="ACTION_INSENSER" value="3">

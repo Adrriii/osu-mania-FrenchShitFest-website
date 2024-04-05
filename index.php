@@ -1,4 +1,5 @@
 <?php
+// echo phpinfo(); // attention ne pas décommenter (par accident)
 set_time_limit(100);
 // wa une database mdr
 include_once('database.php');
@@ -144,6 +145,7 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
         <?php
 
         if($packopen) {
+
         if (isset($_FILES['file'])) {
             if ($_FILES['file']['error']) {
                 echo "error " . $_FILES['file']['error'];
@@ -174,7 +176,6 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                                 echo "Thank you for UPLOAD file<br>";
                                 foreach ($files as $map) {
                                     foreach (file($map) as $line) {
-
                                         $parts = explode(":", $line);
                                         $left = trim(array_shift($parts));
                                         $right = trim(join(":", $parts));
@@ -209,10 +210,8 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                                         }
                                         $newfile[] = $line;
                                     }
-
-                                    fclose($fn);
                                     
-                                    shell_exec(" rm \"$map\"");
+                                    shell_exec("rm \"$map\"");
                                 }
 
                                 $filename = "$creator.osu";
@@ -220,7 +219,6 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                                 $events = false;
 
                                 foreach ($newfile as $line) {
-
                                     $parts = explode(":", $line);
                                     $left = trim(array_shift($parts));
                                     $right = trim(join(":", $parts));
@@ -246,6 +244,12 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
                                             break;
                                         case "Version":
                                             $line = "Version: $creator - $title\n";
+                                            break;
+                                        case "BeatmapID":
+                                            $line = "BeatmapID:0\n";
+                                            break;
+                                        case "BeatmapSetID":
+                                            $line = "BeatmapSetID:-1\n";
                                             break;
                                         default:
                                             if (substr($line, 0, 8) == "[Events]") {

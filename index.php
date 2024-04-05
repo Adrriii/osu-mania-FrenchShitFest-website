@@ -411,13 +411,32 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
     }
     ?>
     <div style="display:flex" display="💪">
-        <a href="https://osu.ppy.sh/s/960544"><img class="satourn" class="satourn" src="http://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059"/></a>
+        <a href="https://osu.ppy.sh/s/960544"><img class="satourn" class="satourn" src="http://cdn.shopify.com/s/files/1/10 61/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_grande.png?v=1480481059"/></a>
         <a href="CUNU OMGFDOMG PACK 2 WHEN"><img class="satourn" class="satourn" src="PUTAIN"/></a>
         <a href="https://osu.ppy.sh/s/977678"><img class="satourn" class="satourn" src="https://cdn.drawception.com/images/panels/2018/2-13/AypBaBreLw-2.png"/></a>
         <a href="https://osu.ppy.sh/s/991882"><img class="satourn" class="satourn" src="no_image_edition" title="tamer" alt="no image edition"/></a>
         <a href="https://osu.ppy.sh/s/999478"><img class="satourn" class="satourn" src="https://i.ytimg.com/vi/5QvgLlFyeok/hqdefault.jpg"/></a>
         <a href="https://osu.ppy.sh/s/1010740"><img class="satourn" class="satourn" src="https://b.ppy.sh/thumb/1010740l.jpg?update=2019-07-28%2018:11:32"/></a>
         <a href="https://osu.ppy.sh/s/1014492"><img class="satourn" class="satourn" src="https://www.sciencesetavenir.fr/assets/img/2016/06/23/cover-r4x3w1000-5c4095e068d41-pieds.jpg2"/></a>
+		<a href="https://osu.ppy.sh/beatmapsets/1014492#mania/2123225"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/lvmp.png"/></a>
+		<a href="https://osu.ppy.sh/beatmapsets/1023149#mania/2140274"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/fr.png"/></a>
+		<a href="https://osu.ppy.sh/beatmapsets/1045830#mania/2186309"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/impossible.png"/></a>
+		<a href="https://osu.ppy.sh/beatmapsets/1080536#mania/2260617"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/nnno.png"/></a>
+    </div>
+    <div style="display:flex" display="💪💪">
+        <a href="https://osu.ppy.sh/beatmapsets/1135508#mania/2371504"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/coronq.png"/></a>
+        <a href="https://osu.ppy.sh/beatmapsets/1153022#mania/2406567"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/ww.png"/></a>
+        <a href="https://osu.ppy.sh/beatmapsets/1178088#mania/2456906"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/violen.png"/></a>
+        <a href="https://osu.ppy.sh/beatmapsets/1217654#mania/2533477"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/amour.png"/></a>
+        <a href="https://osu.ppy.sh/beatmapsets/1232712#mania/2562740"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/ete.png"/></a>
+        <a href="https://osu.ppy.sh/beatmapsets/1276334#mania/2651804"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/olalasacommens.png"/></a>
+        <a href="https://osu.ppy.sh/beatmapsets/1290473#mania/2678835"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/spook.png"/></a>
+        <a href="https://existe.pas.com"><img class="satourn" class="satourn" src=""/>?</a>
+        <a href="https://osu.ppy.sh/beatmapsets/1510753#mania/3093655"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/pl.png"/></a>
+        <a href="https://osu.ppy.sh/beatmapsets/1627463#mania/3322550"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/tp.png"/></a>
+    </div>
+    <div style="display:flex" display="💪💪💪">
+		<a href="https://osu.ppy.sh/beatmapsets/1681940#mania/3436318"><img class="satourn" class="satourn" src="./RESSOURCE(image par exemple)(mais pas que)/0221.png"/></a>
     </div>
 </body>
 

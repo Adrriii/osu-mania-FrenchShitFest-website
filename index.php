@@ -1,4 +1,17 @@
 <?php
+
+// === FrenchShitFest v1.0.0 ===
+// Version: 1.0
+// Date: 2021-09-01
+// Version: 1.0
+// Authors: Cunu, Adri
+// Contributors: Cunu, Adri
+// Description: FrenchShitFest est un site de téléchargement de packs de beatmaps pour le jeu osu!mania.
+// License: MIT
+// License URL: https://opensource.org/licenses/MIT
+// Tags: osu, osu!mania, beatmap, pack, download, upload, admin, update, force, save, action, insenser
+// =============================
+
 // echo phpinfo(); // attention ne pas décommenter (par accident)
 set_time_limit(100);
 // wa une database mdr

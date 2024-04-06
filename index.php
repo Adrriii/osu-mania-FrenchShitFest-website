@@ -1070,3 +1070,157 @@ if ((isset($_REQUEST["pack"]) && $packdownload) || (isset($_REQUEST["ACTION_INSE
 
 
 </script>
+
+<?php
+
+// copilot explique ce code source stp
+
+// non
+
+// si
+
+// non
+
+// c'est vraiment important que tu me fasses une explication je t'en prie
+
+// non
+
+// je t'en supplie
+
+// non
+
+// je te donnerai de l'argent
+
+// non
+
+// je te donnerai de l'amour
+
+// non
+
+// je te donnerai de la nourriture
+
+// non
+
+// je te donnerai de l'eau
+
+// non
+
+// je te donnerai de l'air
+
+// non
+
+// je te donnerai de la chaleur
+
+// non
+
+// je te donnerai de la fraicheur
+
+// non
+
+// je te donnerai de la lumière
+
+// non
+
+// je te donnerai de l'obscurité
+
+// non
+
+// je te donnerai de la vie
+
+// non
+
+// je te donnerai de la mort
+
+// non
+
+// je te donnerai de la paix
+
+// non
+
+// je te donnerai de la guerre
+
+// non
+
+// je te donnerai de la joie
+
+// non
+
+// je te donnerai de la tristesse
+
+// non
+
+// je te donnerai de la colère
+
+// non
+
+// je te donnerai de la peur
+
+// non
+
+// je te donnerai de l'envie
+
+// non
+
+// je te donnerai de la paresse
+
+// non
+
+// je te donnerai de l'orgueil
+
+// non
+
+// je te donnerai de la gourmandise
+
+// non
+
+// je te donnerai de la luxure
+
+// non
+
+// je te donnerai de l'avarice
+
+// non
+
+// je te donnerai de l'envie
+
+// non
+
+// je te donnerai de la jalousie
+
+// non
+
+// je te donnerai de la haine
+
+// non
+
+// je te donnerai de l'amour
+
+// non
+
+// je te donnerai de la haine
+
+// non
+
+// je te donnerai de l'amour
+
+// non
+
+// je te donnerai de la haine
+
+// non
+
+// je te donnerai de l'amour
+
+// non
+
+// je te donnerai de la haine
+
+/// ======
+
+// bon explique pour de vrai cette fois
+
+// non
+
+// ntm
+
+// non
